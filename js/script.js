@@ -65,6 +65,13 @@ showHideElements(payPalDiv, "hide");
 showHideElements(bitcoinDiv, "hide");
 
 //!SECTION - Basic Info
+jobTitleSelector.addEventListener("change", () => {
+  if (jobTitleSelector.value === "other") {
+    showHideElements(otherJobInput, "show");
+  } else {
+    showHideElements(otherJobInput, "hide");
+  }
+});
 
 //!SECTION - T-Shirt
 
