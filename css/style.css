@@ -359,8 +359,10 @@ button:hover {
 .activities label {
   cursor: pointer;
   position: relative;
-  background: rgba(37, 50, 73, 0.95);
-  background: #253249;
+  background: #3b4a63;
+  background: linear-gradient(143deg, #24324a, #8d357e);
+
+
   padding: 15px 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -492,8 +494,8 @@ button:hover {
 ==================================== */
 
 .focus {
-  background: #0f172a !important;
-  border-color: #ff2fdc !important;
+  background: linear-gradient(4deg, #1e293b, #a83f98) !important;
+  border-color: #ff8c00 !important;
 }
 
 .disabled {
