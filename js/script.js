@@ -96,8 +96,48 @@ tShirtDesignSelector.addEventListener("change", () => {
     }
   });
 });
-//!SECTION - Register for Activities
 
+//!SECTION - Register for Activities
+activitiesCheckboxes.forEach((activeCheckbox) => {
+  activeCheckbox.addEventListener("focus", () => {
+    activeCheckbox.parentElement.classList.add("focus");
+  });
+  activeCheckbox.addEventListener("blur", () => {
+    activeCheckbox.parentElement.classList.remove("focus");
+  });
+});
+
+activitiesFieldset.addEventListener("change", (evt) => {
+  const currentActivityCheckbox = evt.target;
+  const cost = Number(currentActivityCheckbox.dataset.cost);
+  if (currentActivityCheckbox.checked) {
+    totalActivitesCost += cost;
+  } else {
+    totalActivitesCost -= cost;
+  }
+  activitiesTotalCost.textContent = `Total: $${totalActivitesCost}`;
+
+  //EXCEEDS
+  const activityTimeCheckboxes = activitiesFieldset.querySelectorAll(
+    "[data-day-and-time]",
+  );
+  console.log(activityTimeCheckboxes);
+  activityTimeCheckboxes.forEach((activityTimeCheckbox) => {
+    if (
+      activityTimeCheckbox.dataset.dayAndTime ===
+        currentActivityCheckbox.dataset.dayAndTime &&
+      activityTimeCheckbox !== currentActivityCheckbox
+    ) {
+      if (currentActivityCheckbox.checked) {
+        activityTimeCheckbox.disabled = true;
+        activityTimeCheckbox.parentElement.classList.add("disabled");
+      } else {
+        activityTimeCheckbox.disabled = false;
+        activityTimeCheckbox.parentElement.classList.remove("disabled");
+      }
+    }
+  });
+});
 //!SECTION - Payment Info
 
 //!SECTION - Utility Functions
