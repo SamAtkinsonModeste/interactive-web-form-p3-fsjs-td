@@ -37,6 +37,24 @@ const showErrorState = (errorElement, errorMessage) => {
 };
 
 //!SECTION - Global Variables
+const userNameInput = selectElement("#name").focus();
+const userEmailInput = selectElement("#email");
+const regexEmail = /^[^@]+@[^@.]+\.[a-z]+$/i;
+const jobTitleSelector = selectElement("#title");
+const otherJobInput = selectElement("#other-job-role");
+const tShirtDesignSelector = selectElement("#design");
+const colorSelector = selectElement("#color");
+const colorOptions = selectAllElements("[data-theme]");
+const activitiesFieldset = selectElement("#activities");
+const activitiesCheckboxes = activitiesFieldset.querySelectorAll(
+  "input[type=checkbox]",
+);
+let totalActivitesCost = 0;
+const activitiesTotalCost = selectElement("#activities-cost");
+const paymentMethodSelect = selectElement("#payment");
+const creditCardDiv = selectElement("#credit-card");
+const payPalDiv = selectElement("#paypal");
+const bitcoinDiv = selectElement("#bitcoin");
 
 //!SECTION - Initial Page State
 
