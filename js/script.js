@@ -74,7 +74,28 @@ jobTitleSelector.addEventListener("change", () => {
 });
 
 //!SECTION - T-Shirt
+tShirtDesignSelector.addEventListener("change", () => {
+  if (tShirtDesignSelector.value !== "") {
+    colorSelector.disabled = false;
+  } else {
+    colorSelector.disabled = true;
+  }
 
+  colorSelector.value = "";
+  colorOptions.forEach((option) => {
+    if (tShirtDesignSelector.value !== option.dataset.theme) {
+      option.disabled = true;
+      option.hidden = true;
+    } else {
+      option.disabled = false;
+      option.hidden = false;
+
+      if (colorSelector.value === "") {
+        colorSelector.value = option.value;
+      }
+    }
+  });
+});
 //!SECTION - Register for Activities
 
 //!SECTION - Payment Info
