@@ -37,7 +37,7 @@ const showErrorState = (errorElement, errorMessage) => {
 };
 
 //!SECTION - Global Variables
-const userNameInput = selectElement("#name").focus();
+const userNameInput = selectElement("#name");
 const userEmailInput = selectElement("#email");
 const regexEmail = /^[^@]+@[^@.]+\.[a-z]+$/i;
 const jobTitleSelector = selectElement("#title");
@@ -57,6 +57,12 @@ const payPalDiv = selectElement("#paypal");
 const bitcoinDiv = selectElement("#bitcoin");
 
 //!SECTION - Initial Page State
+userNameInput.focus();
+showHideElements(otherJobInput, "hide");
+colorSelector.disabled = true;
+paymentMethodSelect.value = "credit-card";
+showHideElements(payPalDiv, "hide");
+showHideElements(bitcoinDiv, "hide");
 
 //!SECTION - Basic Info
 
