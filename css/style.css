@@ -361,8 +361,6 @@ button:hover {
   position: relative;
   background: #3b4a63;
   background: linear-gradient(143deg, #24324a, #8d357e);
-
-
   padding: 15px 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -501,6 +499,11 @@ button:hover {
 .disabled {
   cursor: not-allowed !important;
   background: #0b1020 !important;
+}
+
+.activities label.disabled {
+  background: linear-gradient(143deg, #2a2f3a, #9ca3af) !important;
+  border-color: #6b7280 !important;
 }
 
 /* =================================
