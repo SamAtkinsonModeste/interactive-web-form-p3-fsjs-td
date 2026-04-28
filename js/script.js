@@ -139,7 +139,20 @@ activitiesFieldset.addEventListener("change", (evt) => {
   });
 });
 //!SECTION - Payment Info
-
-//!SECTION - Utility Functions
+paymentMethodSelect.addEventListener("change", () => {
+  if (paymentMethodSelect.value === "paypal") {
+    showHideElements(payPalDiv, "show");
+    showHideElements(creditCardDiv, "hide");
+    showHideElements(bitcoinDiv, "hide");
+  } else if (paymentMethodSelect.value === "bitcoin") {
+    showHideElements(bitcoinDiv, "show");
+    showHideElements(payPalDiv, "hide");
+    showHideElements(creditCardDiv, "hide");
+  } else {
+    showHideElements(creditCardDiv, "show");
+    showHideElements(payPalDiv, "hide");
+    showHideElements(bitcoinDiv, "hide");
+  }
+});
 
 //!SECTION - Event Listeners
