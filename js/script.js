@@ -195,8 +195,6 @@ activitiesFieldset.addEventListener("change", (evt) => {
     }
   });
 
-  //I farted
-
   //Check that at least 1 Checkbox is checked
   oneCheckboxChecked(activitiesCheckboxes, activitiesFieldset, activitiesHintP);
 });
