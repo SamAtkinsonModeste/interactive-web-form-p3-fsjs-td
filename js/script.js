@@ -36,6 +36,29 @@ const showErrorState = (errorElement, errorMessage) => {
   errorElement.parentElement.classList.remove("valid");
 };
 
+//Checks at least one checkbox is checked
+function oneCheckboxChecked(checkboxes, checkboxContainer, errorHint) {
+  let foundActivityChecked = false;
+
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      foundActivityChecked = true;
+    }
+  });
+
+  if (!foundActivityChecked) {
+    checkboxContainer.classList.add("not-valid");
+    checkboxContainer.classList.remove("valid");
+    showHideElements(errorHint, "show");
+  } else {
+    checkboxContainer.classList.add("valid");
+    checkboxContainer.classList.remove("not-valid");
+    showHideElements(errorHint, "hide");
+  }
+
+  return foundActivityChecked;
+}
+
 //!SECTION - Global Variables
 const userNameInput = selectElement("#name");
 const userEmailInput = selectElement("#email");
@@ -141,23 +164,7 @@ activitiesFieldset.addEventListener("change", (evt) => {
   });
 
   //Check that at least 1 Checkbox is checked
-  let foundActivityChecked = false;
-
-  activitiesCheckboxes.forEach((activitiesCheckbox) => {
-    if (activitiesCheckbox.checked) {
-      foundActivityChecked = true;
-    }
-  });
-
-  if (!foundActivityChecked) {
-    activitiesFieldset.classList.add("not-valid");
-    activitiesFieldset.classList.remove("valid");
-    showHideElements(activitiesHintP, "show");
-  } else {
-    activitiesFieldset.classList.add("valid");
-    activitiesFieldset.classList.remove("not-valid");
-    showHideElements(activitiesHintP, "hide");
-  }
+  oneCheckboxChecked(activitiesCheckboxes, activitiesFieldset, activitiesHintP);
 });
 //!SECTION - Payment Info
 paymentMethodSelect.addEventListener("change", () => {
@@ -222,22 +229,14 @@ formConference.addEventListener("submit", (evt) => {
   }
 
   //Activites Checkboxes
-  let foundActivityChecked = false;
-  activitiesCheckboxes.forEach((activitiesCheckbox) => {
-    if (activitiesCheckbox.checked) {
-      foundActivityChecked = true;
-    }
-  });
-
-  if (!foundActivityChecked) {
-    activitiesFieldset.classList.add("not-valid");
-    activitiesFieldset.classList.remove("valid");
-    showHideElements(activitiesHintP, "show");
+  if (
+    !oneCheckboxChecked(
+      activitiesCheckboxes,
+      activitiesFieldset,
+      activitiesHintP,
+    )
+  ) {
     valid = false;
-  } else {
-    activitiesFieldset.classList.add("valid");
-    activitiesFieldset.classList.remove("not-valid");
-    showHideElements(activitiesHintP, "hide");
   }
 
   //!SECTION - Card Payment
