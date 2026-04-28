@@ -7,10 +7,19 @@ const selectElement = (elementSelected) =>
 const selectAllElements = (allElementsSelected) =>
   document.querySelectorAll(allElementsSelected);
 
-//Tests a value against a regex pattern
+/**
+ * Tests a value against a regex pattern
+ * @param {RegExp} regex
+ * @param {string} elementValue
+ * @returns {boolean} True if the value matches the regex pattern
+ */
 const regexValidator = (regex, elementValue) => regex.test(elementValue);
 
-//Shows and Hides elements
+/**
+ * Shows or hides a DOM element by updating its display property
+ * @param {HTMLElement} element
+ * @param {string} visibility - "show" or "hide"
+ */
 const showHideElements = (element, visibility) => {
   if (visibility === "hide") {
     element.style.display = "none";
@@ -19,14 +28,25 @@ const showHideElements = (element, visibility) => {
   }
 };
 
-//Displays a form element's state as valid
+/**
+ * Marks an input as valid by updating its parent element
+ * Adds the 'valid' class and removes 'not-valid'
+ * Hides the associated hint element
+ * @param {HTMLElement} validElement
+ */
 const showValidState = (validElement) => {
   validElement.parentElement.classList.add("valid");
   validElement.nextElementSibling.style.display = "none";
   validElement.parentElement.classList.remove("not-valid");
 };
 
-//Displays a form element state as not valid and display error messages
+/**
+ * Marks an input as invalid by updating its parent element
+ * Adds the 'not-valid' class and removes 'valid'
+ * Displays the associated hint element and updates its message if provided
+ * @param {HTMLElement} errorElement
+ * @param {string} [errorMessage]
+ */
 const showErrorState = (errorElement, errorMessage) => {
   errorElement.parentElement.classList.add("not-valid");
   errorElement.nextElementSibling.style.display = "block";
@@ -36,7 +56,15 @@ const showErrorState = (errorElement, errorMessage) => {
   errorElement.parentElement.classList.remove("valid");
 };
 
-//Checks at least one checkbox is checked
+/**
+ * Checks if at least one checkbox is selected within a container
+ * Updates the container validation state and hint visibility
+ * @param {Nodelist} checkboxes
+ * @param {HTMLElement} checkboxContainer
+ * @param {HTMLElement} errorHint
+ * @returns {Boolean} True if at least one checkbox is checked
+ */
+
 function oneCheckboxChecked(checkboxes, checkboxContainer, errorHint) {
   let foundActivityChecked = false;
 
@@ -106,7 +134,9 @@ tShirtDesignSelector.addEventListener("change", () => {
     colorSelector.disabled = true;
   }
 
+  // Reset selected color before updating available options
   colorSelector.value = "";
+
   colorOptions.forEach((option) => {
     if (tShirtDesignSelector.value !== option.dataset.theme) {
       option.disabled = true;
@@ -134,6 +164,8 @@ activitiesCheckboxes.forEach((activeCheckbox) => {
 
 activitiesFieldset.addEventListener("change", (evt) => {
   const currentActivityCheckbox = evt.target;
+
+  // Convert dataset cost from string to number before updating total
   const cost = Number(currentActivityCheckbox.dataset.cost);
   if (currentActivityCheckbox.checked) {
     totalActivitesCost += cost;
@@ -208,7 +240,9 @@ userEmailInput.addEventListener("input", () => {
 
 //TASK-BUILD - Validation on the Form element
 formConference.addEventListener("submit", (evt) => {
+  // Tracks overall form validity to determine if submission should be prevented
   let valid = true;
+
   //User Name Input
   if (userNameInput.value.trim() !== "") {
     showValidState(userNameInput);
@@ -222,7 +256,7 @@ formConference.addEventListener("submit", (evt) => {
     showErrorState(userEmailInput, "Please enter an email address");
     valid = false;
   } else if (!regexValidator(regexEmail, userEmailInput.value)) {
-    showErrorState(userEmailInput, "Email address must be formatted correctly");
+    showErrorState(userEmailInput);
     valid = false;
   } else {
     showValidState(userEmailInput);
