@@ -46,6 +46,7 @@ const tShirtDesignSelector = selectElement("#design");
 const colorSelector = selectElement("#color");
 const colorOptions = selectAllElements("[data-theme]");
 const activitiesFieldset = selectElement("#activities");
+const activitiesHintP = selectElement(".activities-hint");
 const activitiesCheckboxes = activitiesFieldset.querySelectorAll(
   "input[type=checkbox]",
 );
@@ -55,6 +56,7 @@ const paymentMethodSelect = selectElement("#payment");
 const creditCardDiv = selectElement("#credit-card");
 const payPalDiv = selectElement("#paypal");
 const bitcoinDiv = selectElement("#bitcoin");
+const formConference = selectElement("form");
 
 //!SECTION - Initial Page State
 userNameInput.focus();
@@ -117,11 +119,11 @@ activitiesFieldset.addEventListener("change", (evt) => {
   }
   activitiesTotalCost.textContent = `Total: $${totalActivitesCost}`;
 
-  //EXCEEDS
+  //Handling Checkbox Activities Time Conflicts
   const activityTimeCheckboxes = activitiesFieldset.querySelectorAll(
     "[data-day-and-time]",
   );
-  console.log(activityTimeCheckboxes);
+
   activityTimeCheckboxes.forEach((activityTimeCheckbox) => {
     if (
       activityTimeCheckbox.dataset.dayAndTime ===
@@ -137,6 +139,25 @@ activitiesFieldset.addEventListener("change", (evt) => {
       }
     }
   });
+
+  //Check that at least 1 Checkbox is checked
+  let foundActivityChecked = false;
+
+  activitiesCheckboxes.forEach((activitiesCheckbox) => {
+    if (activitiesCheckbox.checked) {
+      foundActivityChecked = true;
+    }
+  });
+
+  if (!foundActivityChecked) {
+    activitiesFieldset.classList.add("not-valid");
+    activitiesFieldset.classList.remove("valid");
+    showHideElements(activitiesHintP, "show");
+  } else {
+    activitiesFieldset.classList.add("valid");
+    activitiesFieldset.classList.remove("not-valid");
+    showHideElements(activitiesHintP, "hide");
+  }
 });
 //!SECTION - Payment Info
 paymentMethodSelect.addEventListener("change", () => {
@@ -155,4 +176,104 @@ paymentMethodSelect.addEventListener("change", () => {
   }
 });
 
-//!SECTION - Event Listeners
+//!SECTION - Form & Form Elements Validation
+//TASK-BUILD - Live Validate User's Name Input
+userNameInput.addEventListener("input", () => {
+  if (userNameInput.value.trim() !== "") {
+    showValidState(userNameInput);
+  } else {
+    showErrorState(userNameInput);
+  }
+});
+
+//TASK-BUILD - Live Validate Users Email Input
+userEmailInput.addEventListener("input", () => {
+  if (userEmailInput.value.trim() === "") {
+    console.log(userEmailInput.value);
+    showErrorState(userEmailInput, "Please enter an email address");
+  } else if (!regexValidator(regexEmail, userEmailInput.value)) {
+    console.log(userEmailInput.value);
+    showErrorState(userEmailInput, "Email address must be formatted correctly");
+  } else {
+    showValidState(userEmailInput);
+  }
+});
+
+//TASK-BUILD - Validation on the Form element
+formConference.addEventListener("submit", (evt) => {
+  let valid = true;
+  //User Name Input
+  if (userNameInput.value.trim() !== "") {
+    showValidState(userNameInput);
+  } else {
+    showErrorState(userNameInput);
+    valid = false;
+  }
+
+  //User Email Input
+  if (userEmailInput.value.trim() === "") {
+    showErrorState(userEmailInput, "Please enter an email address");
+    valid = false;
+  } else if (!regexValidator(regexEmail, userEmailInput.value)) {
+    showErrorState(userEmailInput, "Email address must be formatted correctly");
+    valid = false;
+  } else {
+    showValidState(userEmailInput);
+  }
+
+  //Activites Checkboxes
+  let foundActivityChecked = false;
+  activitiesCheckboxes.forEach((activitiesCheckbox) => {
+    if (activitiesCheckbox.checked) {
+      foundActivityChecked = true;
+    }
+  });
+
+  if (!foundActivityChecked) {
+    activitiesFieldset.classList.add("not-valid");
+    activitiesFieldset.classList.remove("valid");
+    showHideElements(activitiesHintP, "show");
+    valid = false;
+  } else {
+    activitiesFieldset.classList.add("valid");
+    activitiesFieldset.classList.remove("not-valid");
+    showHideElements(activitiesHintP, "hide");
+  }
+
+  //!SECTION - Card Payment
+  //Card Number
+  if (paymentMethodSelect.value === "credit-card") {
+    const regexCreditCardNumbers = /^\d{13,16}$/;
+    const creditCardNumberInput = selectElement("#cc-num");
+    if (regexValidator(regexCreditCardNumbers, creditCardNumberInput.value)) {
+      showValidState(creditCardNumberInput);
+    } else {
+      showErrorState(creditCardNumberInput);
+      valid = false;
+    }
+
+    //Zip Code
+    const zipCodeInput = selectElement("#zip");
+    const regexZipCode = /^\d{5}$/;
+    if (regexValidator(regexZipCode, zipCodeInput.value)) {
+      showValidState(zipCodeInput);
+    } else {
+      showErrorState(zipCodeInput);
+      valid = false;
+    }
+
+    //CVV Number
+    const cvvNumbersInput = selectElement("#cvv");
+    const regexCvvNumbers = /^\d{3}$/;
+    if (regexValidator(regexCvvNumbers, cvvNumbersInput.value)) {
+      showValidState(cvvNumbersInput);
+    } else {
+      showErrorState(cvvNumbersInput);
+      valid = false;
+    }
+  }
+  //Prevent Form Submission If Form Elements Not Valid
+  if (!valid) {
+    evt.preventDefault();
+  }
+});
